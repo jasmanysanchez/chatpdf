@@ -64,6 +64,7 @@ def get_conversation_chain(vectorstore):
     return conversation_chain
 
 def main():
+    #CREAR UN ARCHIVO .env -> GOOGLE_API_KEY=<GOOGLE GEMINI TOKEN>
     load_dotenv()
     parser = argparse.ArgumentParser(description='Leer pdf con gemini y langchain')
     parser.add_argument('--path_file', nargs='+', type=str, help='Ruta absoluta del archivo en pdf')
