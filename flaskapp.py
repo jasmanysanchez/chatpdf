@@ -32,6 +32,7 @@ def chatpdf():
     conversation = get_conversation_chain(vectorstore)
     response = handle_userinput(prompt, conversation)
     answer = response.get('answer')
+    answertext = answer
     if isinstance(answer, str):
         answer = answer.replace('\n', '')
         if answer.startswith('```json'):
@@ -42,7 +43,7 @@ def chatpdf():
             os.path.exists(filename) and os.remove(filename)
             return jsonify(d)
         except Exception as ex:
-            pass
+            return jsonify({"answer": answertext})
         return 0
     if isinstance(answer, list) or isinstance(answer, tuple):
         for i, x in enumerate(answer or []):
@@ -56,7 +57,7 @@ def chatpdf():
                 os.path.exists(filename) and os.remove(filename)
                 return jsonify(d)
             except Exception as ex:
-                continue
+                return jsonify({"answer": answertext})
     return jsonify({'error': 'No se pudo leer el pdf'}), 400
 
 if __name__ == '__main__':
