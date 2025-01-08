@@ -8,6 +8,7 @@ settings.py
 .history/*
 .venv/
 .env/
+.env
 venv/
 **/migrations/**
 pruebas.py
