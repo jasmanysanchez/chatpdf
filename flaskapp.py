@@ -45,7 +45,6 @@ def chatpdf():
                 return jsonify(d)
             except Exception as ex:
                 return jsonify({"answer": answertext})
-            return 0
         if isinstance(answer, list) or isinstance(answer, tuple):
             for i, x in enumerate(answer or []):
                 text = x['text']
