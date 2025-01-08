@@ -61,4 +61,4 @@ def chatpdf():
     return jsonify({'error': 'No se pudo leer el pdf'}), 400
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
