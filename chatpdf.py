@@ -56,7 +56,7 @@ def get_conversation_chain(vectorstore, language='es'):
     # model = 'gemma-2-27b-it'
     # model = 'gemini-1.5-flash-8b'
     llm = ChatGoogleGenerativeAI(
-        model=model, convert_system_message_to_human=True, temperature=0,
+        model=model, convert_system_message_to_human=True, temperature=0.5,
         generation_config={
             "response_mime_type": "application/json"#, "language": language
         }
