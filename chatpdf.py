@@ -58,7 +58,7 @@ def get_conversation_chain(vectorstore, language='es'):
     llm = ChatGoogleGenerativeAI(
         model=model, convert_system_message_to_human=True, temperature=0,
         generation_config={
-            "response_mime_type": "application/json", "language": language
+            "response_mime_type": "application/json"#, "language": language
         }
     )
     memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
