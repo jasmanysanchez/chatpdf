@@ -31,7 +31,13 @@ def chatpdf():
         prompt = request.form['prompt']
         language = request.form.get('language') or 'es'
 
-        model = genai.GenerativeModel("gemini-1.5-pro-latest")
+        # model = 'gemini-1.5-pro-002'
+        # model = 'gemini-1.5-pro-latest'
+        # model = 'gemini-2.0-flash-thinking-exp-1219'
+        # model = 'gemma-2-27b-it'
+        model = 'gemini-1.5-flash-8b'
+
+        model = genai.GenerativeModel(model)
 
         with open(filename, "rb") as doc_file:
             doc_data = base64.standard_b64encode(doc_file.read()).decode("utf-8")
