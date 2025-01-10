@@ -1,6 +1,9 @@
 from flask import Flask, request, jsonify
 import os
 import json
+
+from google.generativeai.types.safety_types import SafetySettingOptions
+
 from chatpdf import get_pdf_text, get_text_chunks, get_vectorstore, get_conversation_chain, handle_userinput
 from pathlib import Path
 from datetime import datetime
@@ -37,7 +40,7 @@ def chatpdf():
         # model = 'gemma-2-27b-it'
         model = 'gemini-1.5-flash-8b'
 
-        model = genai.GenerativeModel(model)
+        model = genai.GenerativeModel(model, safety_settings=SafetySettingOptions(temperature=0))
 
         with open(filename, "rb") as doc_file:
             doc_data = base64.standard_b64encode(doc_file.read()).decode("utf-8")
