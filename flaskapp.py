@@ -43,7 +43,7 @@ def chatpdf():
         # vectorstore = get_vectorstore(text_chunks)
         # conversation = get_conversation_chain(vectorstore, language)
         # response = handle_userinput(prompt, conversation)
-        answer = response.get('answer')
+        answer = response.text
         answertext = answer
         if isinstance(answer, str):
             answer = answer.replace('\n', '')
