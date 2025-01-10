@@ -50,10 +50,10 @@ def handle_userinput(question, conversation):
 
 # Storing converstations as chain of outputs
 def get_conversation_chain(vectorstore, language='es'):
-    # model = 'gemini-1.5-pro-latest'
+    model = 'gemini-1.5-pro-latest'
     # model = 'gemini-2.0-flash-thinking-exp-1219'
     # model = 'gemma-2-27b-it'
-    model = 'gemini-1.5-flash-8b'
+    # model = 'gemini-1.5-flash-8b'
     llm = ChatGoogleGenerativeAI(
         model=model, convert_system_message_to_human=True, temperature=0,
         generation_config={
