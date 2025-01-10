@@ -1,10 +1,9 @@
+from dotenv import load_dotenv
 from flask import Flask, request, jsonify
 import os
 import json
 
 from google.generativeai.types import GenerationConfigType
-from google.generativeai.types.safety_types import SafetySettingOptions
-
 from chatpdf import get_pdf_text, get_text_chunks, get_vectorstore, get_conversation_chain, handle_userinput
 from pathlib import Path
 from datetime import datetime
@@ -24,6 +23,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 @app.route("/chatpdf", methods=['POST'])
 def chatpdf():
     try:
+        load_dotenv()
         if 'file' not in request.files:
             return jsonify({'error': 'No se envió ningún archivo'}), 400
         file = request.files['file']
@@ -41,12 +41,12 @@ def chatpdf():
         # model = 'gemma-2-27b-it'
         model = 'gemini-1.5-flash-8b'
 
-        model = genai.GenerativeModel(model)
+        model = genai.GenerativeModel(model, generation_config=genai.GenerationConfig(temperature=0))
 
         with open(filename, "rb") as doc_file:
             doc_data = base64.standard_b64encode(doc_file.read()).decode("utf-8")
 
-        response = model.generate_content([{'mime_type': 'application/pdf', 'data': doc_data}, prompt], generation_config=GenerationConfigType(temperature=0))
+        response = model.generate_content([{'mime_type': 'application/pdf', 'data': doc_data}, prompt])
 
         # raw_text = get_pdf_text([filename])
         # text_chunks = get_text_chunks(raw_text)
