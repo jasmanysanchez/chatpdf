@@ -4,6 +4,8 @@ import json
 from chatpdf import get_pdf_text, get_text_chunks, get_vectorstore, get_conversation_chain, handle_userinput
 from pathlib import Path
 from datetime import datetime
+import google.generativeai as genai
+import base64
 
 BASE_DIR = Path(__file__).resolve().parent
 app = Flask(__name__)
@@ -28,11 +30,19 @@ def chatpdf():
         file.close()
         prompt = request.form['prompt']
         language = request.form.get('language') or 'es'
-        raw_text = get_pdf_text([filename])
-        text_chunks = get_text_chunks(raw_text)
-        vectorstore = get_vectorstore(text_chunks)
-        conversation = get_conversation_chain(vectorstore, language)
-        response = handle_userinput(prompt, conversation)
+
+        model = genai.GenerativeModel("gemini-1.5-pro-latest")
+
+        with open(filename, "rb") as doc_file:
+            doc_data = base64.standard_b64encode(doc_file.read()).decode("utf-8")
+
+        response = model.generate_content([{'mime_type': 'application/pdf', 'data': doc_data}, prompt])
+
+        # raw_text = get_pdf_text([filename])
+        # text_chunks = get_text_chunks(raw_text)
+        # vectorstore = get_vectorstore(text_chunks)
+        # conversation = get_conversation_chain(vectorstore, language)
+        # response = handle_userinput(prompt, conversation)
         answer = response.get('answer')
         answertext = answer
         if isinstance(answer, str):
