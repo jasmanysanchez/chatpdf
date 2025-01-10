@@ -49,12 +49,17 @@ def handle_userinput(question, conversation):
     return response
 
 # Storing converstations as chain of outputs
-def get_conversation_chain(vectorstore):
+def get_conversation_chain(vectorstore, language='es'):
     # model = 'gemini-1.5-pro-latest'
     # model = 'gemini-2.0-flash-thinking-exp-1219'
     # model = 'gemma-2-27b-it'
     model = 'gemini-1.5-flash-8b'
-    llm = ChatGoogleGenerativeAI(model=model, convert_system_message_to_human=True, temperature=0, generation_config={"response_mime_type": "application/json"})
+    llm = ChatGoogleGenerativeAI(
+        model=model, convert_system_message_to_human=True, temperature=0,
+        generation_config={
+            "response_mime_type": "application/json", "language": language
+        }
+    )
     memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
     conversation_chain = ConversationalRetrievalChain.from_llm(
         llm=llm,

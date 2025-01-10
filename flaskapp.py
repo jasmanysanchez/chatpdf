@@ -27,10 +27,11 @@ def chatpdf():
         file.save(filename)
         file.close()
         prompt = request.form['prompt']
+        language = request.form.get('language') or 'es'
         raw_text = get_pdf_text([filename])
         text_chunks = get_text_chunks(raw_text)
         vectorstore = get_vectorstore(text_chunks)
-        conversation = get_conversation_chain(vectorstore)
+        conversation = get_conversation_chain(vectorstore, language)
         response = handle_userinput(prompt, conversation)
         answer = response.get('answer')
         answertext = answer
