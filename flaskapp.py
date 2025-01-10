@@ -41,6 +41,7 @@ def chatpdf():
         # model = 'gemma-2-27b-it'
         model = 'gemini-1.5-flash-8b'
 
+        # genai.configure(api_key='')
         model = genai.GenerativeModel(model, generation_config=genai.GenerationConfig(temperature=0))
 
         with open(filename, "rb") as doc_file:
