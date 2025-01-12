@@ -2,7 +2,7 @@ from dotenv import load_dotenv
 from flask import Flask, request, jsonify
 import os
 import json
-
+import mimetypes
 from google.generativeai.types import GenerationConfigType
 from chatpdf import get_pdf_text, get_text_chunks, get_vectorstore, get_conversation_chain, handle_userinput
 from pathlib import Path
@@ -47,7 +47,8 @@ def chatpdf():
         with open(filename, "rb") as doc_file:
             doc_data = base64.standard_b64encode(doc_file.read()).decode("utf-8")
 
-        response = model.generate_content([{'mime_type': 'application/pdf', 'data': doc_data}, prompt])
+        mime_type, encoding = mimetypes.guess_type(filename)
+        response = model.generate_content([{'mime_type': mime_type, 'data': doc_data}, prompt])
 
         # raw_text = get_pdf_text([filename])
         # text_chunks = get_text_chunks(raw_text)
