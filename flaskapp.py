@@ -9,6 +9,7 @@ from pathlib import Path
 from datetime import datetime
 import google.generativeai as genai
 import base64
+import re
 
 BASE_DIR = Path(__file__).resolve().parent
 app = Flask(__name__)
@@ -57,13 +58,19 @@ def chatpdf():
         # response = handle_userinput(prompt, conversation)
         answer = response.text
         answertext = answer
+        patron = r'\{.*?\}'
         if isinstance(answer, str):
-            answer = answer.replace('\n', '')
-            if answer.startswith('```json'):
-                answer = answer.replace('```json', '', 1)
-                answer = answer.replace('```', '', 1)
+
+            busqueda = re.search(patron, answertext, re.DOTALL)
+            resultado = answertext
+            if busqueda:
+                resultado = busqueda.group()
+            # answer = answer.replace('\n', '')
+            # if answer.startswith('```json'):
+            #     answer = answer.replace('```json', '', 1)
+            #     answer = answer.replace('```', '', 1)
             try:
-                d = json.loads(answer)
+                d = json.loads(resultado)
                 os.path.exists(filename) and os.remove(filename)
                 return jsonify(d)
             except Exception as ex:
@@ -71,12 +78,16 @@ def chatpdf():
         if isinstance(answer, list) or isinstance(answer, tuple):
             for i, x in enumerate(answer or []):
                 text = x['text']
-                text = text.replace('\n', '')
-                if text.startswith('```json'):
-                    text = text.replace('```json', '', 1)
-                    text = text.replace('```', '', 1)
+                busqueda = re.search(patron, text, re.DOTALL)
+                resultado = text
+                if busqueda:
+                    resultado = busqueda.group()
+                # text = text.replace('\n', '')
+                # if text.startswith('```json'):
+                #     text = text.replace('```json', '', 1)
+                #     text = text.replace('```', '', 1)
                 try:
-                    d = json.loads(text)
+                    d = json.loads(resultado)
                     os.path.exists(filename) and os.remove(filename)
                     return jsonify(d)
                 except Exception as ex:
