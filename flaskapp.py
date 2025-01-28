@@ -57,7 +57,7 @@ def chatpdf():
         # conversation = get_conversation_chain(vectorstore, language)
         # response = handle_userinput(prompt, conversation)
         answer = response.text
-        answertext = answer
+        answertext = answer.replace('\n', '')
         patron = r'\{.*?\}'
         if isinstance(answer, str):
 
