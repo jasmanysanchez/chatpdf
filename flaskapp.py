@@ -40,7 +40,8 @@ def chatpdf():
         # model = 'gemini-1.5-pro-latest'
         # model = 'gemini-2.0-flash-thinking-exp-1219'
         # model = 'gemma-2-27b-it'
-        model = 'gemini-1.5-flash-8b'
+        # model = 'gemini-1.5-flash-8b'
+        model = 'gemini-1.5-flash'
 
         # genai.configure(api_key='')
         model = genai.GenerativeModel(model, generation_config=genai.GenerationConfig(temperature=0))
