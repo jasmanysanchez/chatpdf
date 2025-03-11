@@ -10,6 +10,7 @@ from datetime import datetime
 import google.generativeai as genai
 import base64
 import re
+import PyPDF2
 
 BASE_DIR = Path(__file__).resolve().parent
 app = Flask(__name__)
@@ -36,18 +37,23 @@ def chatpdf():
         prompt = request.form['prompt']
         language = request.form.get('language') or 'es'
 
+        with open(filename, "rb") as doc_file:
+            doc_data = base64.standard_b64encode(doc_file.read()).decode("utf-8")
+            reader = PyPDF2.PdfReader(doc_file)
+            cantidad_paginas = len(reader.pages)
+
         # model = 'gemini-1.5-pro-002'
         # model = 'gemini-1.5-pro-latest'
         # model = 'gemini-2.0-flash-thinking-exp-1219'
         # model = 'gemma-2-27b-it'
-        # model = 'gemini-1.5-flash-8b'
-        model = 'gemini-1.5-flash'
+        model = 'gemini-2.0-flash'
+        if cantidad_paginas <= 2:
+            model = 'gemini-1.5-flash-8b'
+        elif cantidad_paginas > 3 and cantidad_paginas <= 5:
+            model = 'gemini-1.5-flash'
 
         # genai.configure(api_key='')
         model = genai.GenerativeModel(model, generation_config=genai.GenerationConfig(temperature=0))
-
-        with open(filename, "rb") as doc_file:
-            doc_data = base64.standard_b64encode(doc_file.read()).decode("utf-8")
 
         mime_type, encoding = mimetypes.guess_type(filename)
         response = model.generate_content([{'mime_type': mime_type, 'data': doc_data}, prompt])
