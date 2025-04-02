@@ -47,10 +47,10 @@ def chatpdf():
         # model = 'gemini-2.0-flash-thinking-exp-1219'
         # model = 'gemma-2-27b-it'
         model = 'gemini-2.0-flash'
-        if cantidad_paginas <= 2:
-            model = 'gemini-1.5-flash-8b'
-        elif cantidad_paginas > 3 and cantidad_paginas <= 5:
-            model = 'gemini-1.5-flash'
+        # if cantidad_paginas <= 2:
+        #     model = 'gemini-1.5-flash-8b'
+        # elif cantidad_paginas > 3 and cantidad_paginas <= 5:
+        #     model = 'gemini-1.5-flash'
 
         # genai.configure(api_key='')
         model = genai.GenerativeModel(model, generation_config=genai.GenerationConfig(temperature=0))
