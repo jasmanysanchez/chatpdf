@@ -42,8 +42,8 @@ def chatpdf():
             reader = PyPDF2.PdfReader(doc_file)
             cantidad_paginas = len(reader.pages)
 
-        # model = 'gemini-1.5-pro-002'
-        model = 'gemini-1.5-pro-latest'
+        model = 'gemini-2.5-flash'
+        # model = 'gemini-1.5-pro-latest'
         # model = 'gemini-2.0-flash-thinking-exp-1219'
         # model = 'gemma-2-27b-it'
         # model = 'gemini-1.5-flash'
