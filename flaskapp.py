@@ -108,4 +108,4 @@ def chatpdf():
         return jsonify({'error': str(ex)}), 400
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
