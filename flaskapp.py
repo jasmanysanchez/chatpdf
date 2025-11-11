@@ -32,6 +32,7 @@ def chatpdf():
         if file.filename == '':
             return jsonify({'error': 'No se seleccionó ningún archivo'}), 400
         filename = os.path.join(BASE_DIR, app.config['UPLOAD_FOLDER'], f'{datetime.now().strftime("%d%m%Y%H%M%S%f")}_{file.filename}')
+        print(filename)
         file.save(filename)
         file.close()
         prompt = request.form['prompt']
