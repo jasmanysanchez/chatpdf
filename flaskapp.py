@@ -81,6 +81,7 @@ def chatpdf():
                 os.path.exists(filename) and os.remove(filename)
                 return jsonify(d)
             except Exception as ex:
+                print({'error': str(ex)})
                 return jsonify({"answer": answertext})
         if isinstance(answer, list) or isinstance(answer, tuple):
             for i, x in enumerate(answer or []):
@@ -98,9 +99,11 @@ def chatpdf():
                     os.path.exists(filename) and os.remove(filename)
                     return jsonify(d)
                 except Exception as ex:
+                    print({'error': str(ex)})
                     return jsonify({"answer": answertext})
         return jsonify({'error': 'No se pudo leer el pdf'}), 400
     except Exception as ex:
+        print({'error': str(ex)})
         return jsonify({'error': str(ex)}), 400
 
 if __name__ == '__main__':
